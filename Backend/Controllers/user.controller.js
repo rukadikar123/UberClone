@@ -67,7 +67,9 @@ const loginUser = async (req, res) => {
   const token= await user.generateAuthToken()
 
   user.password=undefined
-  
+
+  res.cookie('token', token)
+
   res.status(200).json({
     success:true,
     token,
@@ -76,4 +78,12 @@ const loginUser = async (req, res) => {
 
 };
 
-export { registerUser, loginUser };
+const getUserProfile=async (req, res)=>{
+    const user=req.user
+    res.status(200).json({
+        success:true,
+        user
+    })
+}
+
+export { registerUser, loginUser, getUserProfile };
