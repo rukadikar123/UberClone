@@ -70,3 +70,65 @@ The request body must be a JSON object with the following properties:
       "error": "Email is already registered"
     }
     ```
+
+### POST /users/login
+
+#### Description
+This endpoint is used to log in an existing user.
+
+#### Request Body
+The request body must be a JSON object with the following properties:
+
+- `email` (string ): The email address of the user. Must be a valid email format.
+- `password` (string): The password for the user. Must be at least 6 characters long.
+
+#### Example Request
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+```
+
+#### Responses
+
+- `200 OK`: User logged in successfully.
+  - Example Response:
+    ```json
+    {
+      "success": true,
+      "token": "jwt_token_here",
+      "user": {
+        "_id": "user_id_here",
+        "fullName": {
+          "firstName": "John",
+          "lastName": "Doe"
+        },
+        "email": "john.doe@example.com",
+        "createdAt": "2023-10-01T00:00:00.000Z",
+        "updatedAt": "2023-10-01T00:00:00.000Z"
+      }
+    }
+    ```
+
+- `400 Bad Request`: Invalid input data.
+  - Example Response:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Invalid email",
+          "param": "email",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+
+- `401 Unauthorized`: Invalid email or password.
+  - Example Response:
+    ```json
+    {
+      "message": "invalid email or password"
+    }
+    ```
