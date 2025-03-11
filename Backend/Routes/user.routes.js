@@ -1,7 +1,7 @@
-import express from 'express'
+
 import { Router } from 'express'
 import {body} from 'express-validator'
-import { registerUser } from '../Controllers/user.controller'
+import { registerUser } from '../Controllers/user.controller.js'
 
 const router=Router()
 
