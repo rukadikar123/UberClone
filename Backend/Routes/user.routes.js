@@ -2,7 +2,7 @@
 import { Router } from 'express'
 import {body} from 'express-validator'
 import { isLoggedIn } from '../Middlewares/auth.middleware.js'
-import { registerUser, loginUser, getUserProfile } from '../Controllers/user.controller.js'
+import { registerUser, loginUser, getUserProfile, logoutUser } from '../Controllers/user.controller.js'
 
 const router=Router()
 
@@ -18,6 +18,8 @@ router.post('/login',[
 ] , loginUser)
 
 router.get('/profile', isLoggedIn,  getUserProfile)
+
+router.get('/logout',isLoggedIn, logoutUser)
 
 
 export default router
