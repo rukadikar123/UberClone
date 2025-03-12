@@ -3,7 +3,9 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import connectToDB from './DB/db.js'
 import userRoutes from './Routes/user.routes.js'
+import captainRoutes from './Routes/captain.routes.js'
 import cookieParser from 'cookie-parser'
+
 
 dotenv.config()
  
@@ -21,5 +23,6 @@ app.get('/', (req, res)=>{
 })
 
 app.use('/users', userRoutes)
+app.use('/captain', captainRoutes)
 
 export default app 

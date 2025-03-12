@@ -12,7 +12,6 @@ const captainSchema = new mongoose.Schema(
       },
       lastName: {
         type: String,
-        required: true,
         minlength: [3, "last name must be atleast 3 chars"],
       },
     },
@@ -37,7 +36,7 @@ const captainSchema = new mongoose.Schema(
         enum:['active', 'inactive'],
         default:'inactive'
     },
-    vehical:{
+    vehicle:{
         color:{
             type:String,
             required:true,
@@ -53,7 +52,7 @@ const captainSchema = new mongoose.Schema(
             required:true,
             min:[1, "capacity must be atleast 1 "]
         },
-        vehicalType:{
+        vehicleType:{
             type:String,
             required:true,
             enum:['car', 'motorcycle','auto']

@@ -11,7 +11,6 @@ const userSchema=new mongoose.Schema ({
         },
         lastName:{
             type:String,
-            required:true,
             minlength:[3,"last name must be atleast 3 chars"]
         }
     },
