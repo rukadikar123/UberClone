@@ -96,4 +96,15 @@ const getCaptainProfile=async(req,res)=>{
 
 }
 
-export { registerCaptain, loginCaptain, getCaptainProfile };
+const logoutCaptain=async(req,res)=>{
+  res.clearCookie('token', {
+    httpOnly: true,
+  } )
+
+  res.status(200).json({
+    success:true,
+    message:"logout successfully"
+  })
+}
+
+export { registerCaptain, loginCaptain, getCaptainProfile, logoutCaptain };

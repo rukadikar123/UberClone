@@ -394,3 +394,31 @@ This endpoint is used to get the profile of the logged-in captain.
       "message": "Unauthorized"
     }
     ```
+
+### POST /captain/logout
+
+#### Description
+This endpoint is used to log out the currently logged-in captain.
+
+#### Headers
+- `Authorization` (string, required): The JWT token of the logged-in captain.
+
+#### Responses
+
+- `200 OK`: Captain logged out successfully.
+  - Example Response:
+    ```json
+    {
+      "success": true,
+      "message": "logout successfully"
+    }
+    ```
+
+- `401 Unauthorized`: Captain is not authenticated.
+  - Example Response:
+    ```json
+    {
+      "success": false,
+      "message": "Unauthorized"
+    }
+    ```
