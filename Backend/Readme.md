@@ -351,3 +351,46 @@ The request body must be a JSON object with the following properties:
       "message": "invalid email or password"
     }
     ```
+
+### GET /captain/profile
+
+#### Description
+This endpoint is used to get the profile of the logged-in captain.
+
+#### Headers
+- `Authorization` (string, required): The JWT token of the logged-in captain.
+
+#### Responses
+
+- `200 OK`: Captain profile retrieved successfully.
+  - Example Response:
+    ```json
+    {
+      "success": true,
+      "captain": {
+        "_id": "captain_id_here",
+        "fullName": {
+          "firstName": "Jane",
+          "lastName": "Doe"
+        },
+        "email": "jane.doe@example.com",
+        "vehicle": {
+          "color": "red",
+          "plate": "ABC1234",
+          "capacity": 4,
+          "vehicleType": "car"
+        },
+        "createdAt": "2023-10-01T00:00:00.000Z",
+        "updatedAt": "2023-10-01T00:00:00.000Z"
+      }
+    }
+    ```
+
+- `401 Unauthorized`: Captain is not authenticated.
+  - Example Response:
+    ```json
+    {
+      "success": false,
+      "message": "Unauthorized"
+    }
+    ```

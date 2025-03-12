@@ -86,4 +86,14 @@ const loginCaptain = async (req, res) => {
   })
 };
 
-export { registerCaptain, loginCaptain };
+const getCaptainProfile=async(req,res)=>{
+    const captain=req.captain
+  
+    res.status(200).json({
+      success:true,
+      captain
+    })
+
+}
+
+export { registerCaptain, loginCaptain, getCaptainProfile };
