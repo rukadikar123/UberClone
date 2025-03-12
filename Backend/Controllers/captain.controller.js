@@ -52,9 +52,9 @@ const loginCaptain = async (req, res) => {
 
   const { email, password } = req.body;
 
-  const captain = await Captain.findOne(email).select("+password");
+  const captain = await Captain.findOne({email}).select("+password");
 
-  if (!user) {
+  if (!captain) {
     return res.status(400).json({
       succes: false,
       message: "invalid email or password",
@@ -66,7 +66,7 @@ const loginCaptain = async (req, res) => {
   if (!isMatch) {
     return res.status(401).json({
       success: false,
-      message: "invalid password",
+      message: "invalid email or password",
     });
   }
 
