@@ -132,3 +132,68 @@ The request body must be a JSON object with the following properties:
       "message": "invalid email or password"
     }
     ```
+
+### GET /users/profile
+
+#### Description
+This endpoint is used to get the profile of the logged-in user.
+
+#### Headers
+- `Authorization` (string, required): The JWT token of the logged-in user.
+
+#### Responses
+
+- `200 OK`: User profile retrieved successfully.
+  - Example Response:
+    ```json
+    {
+      "success": true,
+      "user": {
+        "_id": "user_id_here",
+        "fullName": {
+          "firstName": "John",
+          "lastName": "Doe"
+        },
+        "email": "john.doe@example.com",
+        "createdAt": "2023-10-01T00:00:00.000Z",
+        "updatedAt": "2023-10-01T00:00:00.000Z"
+      }
+    }
+    ```
+
+- `401 Unauthorized`: User is not authenticated.
+  - Example Response:
+    ```json
+    {
+      "success": false,
+      "message": "Unauthorized"
+    }
+    ```
+
+### POST /users/logout
+
+#### Description
+This endpoint is used to log out the currently logged-in user.
+
+#### Headers
+- `Authorization` (string, required): The JWT token of the logged-in user.
+
+#### Responses
+
+- `200 OK`: User logged out successfully.
+  - Example Response:
+    ```json
+    {
+      "success": true,
+      "message": "User Logged Out Successfully"
+    }
+    ```
+
+- `401 Unauthorized`: User is not authenticated.
+  - Example Response:
+    ```json
+    {
+      "success": false,
+      "message": "Unauthorized"
+    }
+    ```
