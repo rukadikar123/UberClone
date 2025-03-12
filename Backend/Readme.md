@@ -283,3 +283,71 @@ The request body must be a JSON object with the following properties:
       "message": "Email is already registered"
     }
     ```
+
+### POST /captain/login
+
+#### Description
+This endpoint is used to log in an existing captain.
+
+#### Request Body
+The request body must be a JSON object with the following properties:
+
+- `email` (string, required): The email address of the captain. Must be a valid email format.
+- `password` (string, required): The password for the captain. Must be at least 6 characters long.
+
+#### Example Request
+```json
+{
+  "email": "jane.doe@example.com",
+  "password": "password123"
+}
+```
+
+#### Responses
+
+- `200 OK`: Captain logged in successfully.
+  - Example Response:
+    ```json
+    {
+      "success": true,
+      "token": "jwt_token_here",
+      "captain": {
+        "_id": "captain_id_here",
+        "fullName": {
+          "firstName": "Jane",
+          "lastName": "Doe"
+        },
+        "email": "jane.doe@example.com",
+        "vehicle": {
+          "color": "red",
+          "plate": "ABC1234",
+          "capacity": 4,
+          "vehicleType": "car"
+        },
+        "createdAt": "2023-10-01T00:00:00.000Z",
+        "updatedAt": "2023-10-01T00:00:00.000Z"
+      }
+    }
+    ```
+
+- `400 Bad Request`: Invalid input data.
+  - Example Response:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Invalid email",
+          "param": "email",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+
+- `401 Unauthorized`: Invalid email or password.
+  - Example Response:
+    ```json
+    {
+      "message": "invalid email or password"
+    }
+    ```
