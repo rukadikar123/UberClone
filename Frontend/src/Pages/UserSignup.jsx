@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 function UserSignup() {
   const [email, setEmail] = useState("");
@@ -7,14 +9,17 @@ function UserSignup() {
   const [fullName, setFullName] = useState({firstName:'', lastName:''});
   const [userData, setUserData] = useState({});
 
-  const submitHandler = (e) => {
+  const navigate=useNavigate()
+
+  const submitHandler =async (e) => {
     e.preventDefault();
-    setUserData({
+    const newUser={
+      fullName:fullName,
       email: email,
       password: password,
-      fullName:fullName
-    });
-    
+    }
+
+    const response=await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`)
 
     setEmail("");
     setPassword("");
@@ -75,7 +80,7 @@ function UserSignup() {
           type="submit"
           className="text-xl  py-2  text-white bg-black/70 font-semibold cursor-pointer  hover:bg-black/50"
         >
-          SignUp
+          Create account
         </button>
       </form>
       <p className="font-medium text-center">
