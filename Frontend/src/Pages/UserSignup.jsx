@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { UserDataContext } from "../Context/userContext";
 
 function UserSignup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState({firstName:'', lastName:''});
   const [userData, setUserData] = useState({});
+
+  const {user, setUser}=useContext(UserDataContext)
 
   const navigate=useNavigate()
 
@@ -19,7 +21,13 @@ function UserSignup() {
       password: password,
     }
 
-    const response=await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`)
+    const response=await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
+
+    if(response.status===200){
+      const data=response.data
+      setUser(data.user)
+      navigate('/home')
+    }
 
     setEmail("");
     setPassword("");
