@@ -23,7 +23,7 @@ function CaptainLogin() {
           onSubmit={(e) => submitHandler(e)}
           className="flex flex-col w-1/4 gap-4  p-3"
         >
-          <h2 className="text-3xl font-semibold">What's your email</h2>
+          <h2 className="text-3xl font-semibold">What's our captains email</h2>
           <input
             type="email"
             required

@@ -29,7 +29,7 @@ function CaptainSignup() {
         onSubmit={(e) => submitHandler(e)}
         className="flex flex-col w-1/3 gap-5  p-3"
       >
-        <h2 className="text-2xl font-semibold">What's your Name</h2>
+        <h2 className="text-2xl font-semibold">What's our captains Name</h2>
         <div className="flex gap-2  ">
           <input
             type="text"
@@ -53,7 +53,7 @@ function CaptainSignup() {
           />
         </div>
 
-        <h2 className="text-2xl font-semibold">What's your email</h2>
+        <h2 className="text-2xl font-semibold">What's our captains email</h2>
         <input
           type="email"
           required
