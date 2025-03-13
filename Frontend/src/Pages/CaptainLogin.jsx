@@ -12,7 +12,6 @@ function CaptainLogin() {
             email: email,
             password:password 
         });
-        console.log(captainData);
     
         setEmail("");
         setPassword("");
@@ -33,7 +32,7 @@ function CaptainLogin() {
             name=""
             id=""
             placeholder="email here"
-            className="p-2 outline-none bg-gray-200 border border-gray-400 hover:border-gray-700 hover:border-2"
+            className="p-2 outline-none placeholder:text-sm bg-gray-200 border border-gray-400 hover:border-gray-700 hover:border-2"
           />
           <h2 className="text-3xl font-semibold">Enter Password</h2>
           <input
@@ -42,7 +41,7 @@ function CaptainLogin() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password here"
-            className="p-2 outline-none bg-gray-200 border border-gray-400 hover:border-gray-700 hover:border-2"
+            className="p-2 outline-none placeholder:text-sm bg-gray-200 border border-gray-400 hover:border-gray-700 hover:border-2"
           />
           <button
             type="submit"
