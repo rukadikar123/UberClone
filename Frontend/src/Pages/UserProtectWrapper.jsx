@@ -15,8 +15,7 @@ function UserProtectWrapper({children}) {
       if(!token){
         navigate('/login')
     }
-    }, [token])
-    
+
     axios.get(`${import.meta.env.VITE_BASE_URL}/users/profile`, {
       headers:{
         Authorization:`Bearer ${token}`
@@ -32,6 +31,9 @@ function UserProtectWrapper({children}) {
       navigate('/login')
       localStorage.removeItem('token')
     })
+    }, [token, setUser, navigate])
+    
+   
 
     if(isLoading){
       return (
