@@ -1,21 +1,37 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { CaptainDataContext } from "../Context/CaptainContext";
 
 function CaptainLogin() {
-      const [email, setEmail] = useState("");
-      const [password, setPassword] = useState("");
-      const [captainData, setCaptainData] = useState({});
-    
-      const submitHandler = (e) => {
-        e.preventDefault();
-        setCaptainData({ 
-            email: email,
-            password:password 
-        });
-    
-        setEmail("");
-        setPassword("");
-      };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { captain, setCaptain } = useContext(CaptainDataContext);
+  const navigate = useNavigate();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const captainData = {
+      email: email,
+      password: password,
+    };
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/captain/login`,
+      captainData
+    );
+
+    if (response.status === 200) {
+      const data = response.data;
+      localStorage.setItem('token', data.token)
+      setCaptain(data.captain);
+      navigate('/captain-home')
+    }
+
+    setEmail("");
+    setPassword("");
+  };
   return (
     <>
       <div className="h-screen w-full flex flex-col items-center justify-center">
@@ -57,10 +73,10 @@ function CaptainLogin() {
           </Link>
         </p>
         <Link to="/login" className="w-1/4">
-        <button className="text-xl w-full py-2 mt-20 text-white bg-orange-400 font-semibold cursor-pointer  hover:bg-emerald-600">
-          Sign in as User
-        </button>
-        </Link >
+          <button className="text-xl w-full py-2 mt-20 text-white bg-orange-400 font-semibold cursor-pointer  hover:bg-emerald-600">
+            Sign in as User
+          </button>
+        </Link>
       </div>
     </>
   );
