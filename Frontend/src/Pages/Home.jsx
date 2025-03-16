@@ -5,6 +5,8 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import LocationSearchPanel from "../components/LocationSearchPanel";
 import Vehiclepanel from "../components/Vehiclepanel";
 import ConfirmRidePanel from "../components/ConfirmRidePanel";
+import LookingForDriver from "../components/LookingForDriver";
+import WaitForDriver from "../components/WaitForDriver";
 
 function Home() {
   const [pickup, setPickup] = useState("");
@@ -12,11 +14,15 @@ function Home() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [vehiclePanel, setVehiclePanel] = useState(false);
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
+  const [vehicleFound, setVehicleFound] = useState(false);
+  const [WaitingForDriver, setWaitingForDriver] = useState(false);
 
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
   const vehiclePanelRef = useRef(null);
   const confirmRidePanelRef = useRef(null);
+  const vehicleFoundRef=useRef(null)
+  const WaitingForDriverRef=useRef(null)
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -75,6 +81,35 @@ function Home() {
     [confirmRidePanel]
   );
 
+  useGSAP(
+    function () {
+      if (vehicleFound) {
+        gsap.to(vehicleFoundRef.current, {
+          transform: "translateY(-5%)",
+        });
+      } else {
+        gsap.to(vehicleFoundRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [vehicleFound]
+  );
+  useGSAP(
+    function () {
+      if (WaitingForDriver) {
+        gsap.to(WaitingForDriverRef.current, {
+          transform: "translateY(-5%)",
+        });
+      } else {
+        gsap.to(WaitingForDriverRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [WaitingForDriver]
+  );
+
 
   return (
     <>
@@ -131,7 +166,19 @@ function Home() {
             ref={confirmRidePanelRef}
             className="fixed bottom-0 w-[34vw] ml-10 mt-1 h-[64vh] bg-white overflow-auto scrollbar-none translate-y-full "
           >
-            <ConfirmRidePanel setConfirmRidePanel={setConfirmRidePanel} />
+            <ConfirmRidePanel setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+          </div>
+          <div
+            ref={vehicleFoundRef}
+            className="fixed bottom-0 w-[34vw] ml-10 mt-1 h-[64vh] bg-white overflow-auto scrollbar-none translate-y-full "
+          >
+            <LookingForDriver setVehicleFound={setVehicleFound}/>
+          </div>
+          <div
+            ref={WaitingForDriverRef}
+            className="fixed bottom-0 w-[34vw] ml-10 mt-1 h-[64vh] bg-white overflow-auto scrollbar-none translate-y-full "
+          >
+            <WaitForDriver setWaitingForDriver={setWaitingForDriver}/>
           </div>
 
         <div className="h-full  w-[60%]">

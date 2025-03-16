@@ -5,7 +5,7 @@ import { RiMapPinUserFill } from "react-icons/ri";
 import { RiCurrencyFill } from "react-icons/ri";
 
 
-function ConfirmRidePanel({setConfirmRidePanel}) {
+function ConfirmRidePanel({setConfirmRidePanel, setVehicleFound}) {
   return (
     <div>
       <p onClick={()=>setConfirmRidePanel(false)} className="w-full flex justify-center cursor-pointer   ">
@@ -38,11 +38,13 @@ function ConfirmRidePanel({setConfirmRidePanel}) {
                 </p>
                 <div className="flex flex-col">
                     <h2 className="text-md font-medium">Rs.192</h2>
-                    <p className="text-sm">Kakriya talab, Bhopal</p>
                 </div>
             </div>
         </div>
-        <button className="w-full bg-green-500 rounded-sm p-1 mt-2 text-white text-xl font-medium">
+        <button onClick={()=>{
+          setVehicleFound(true)
+          setConfirmRidePanel(false)
+        }} className="w-full bg-green-500 rounded-sm p-1 mt-2 text-white text-xl font-medium">
             Confirm
         </button>
       </div>
