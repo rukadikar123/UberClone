@@ -5,6 +5,7 @@ import connectToDB from './DB/db.js'
 import userRoutes from './Routes/user.routes.js'
 import captainRoutes from './Routes/captain.routes.js'
 import mapRoutes from './Routes/maps.router.js'
+import rideRoutes from './Routes/Ride.routes.js'
 import cookieParser from 'cookie-parser'
 
 
@@ -26,8 +27,9 @@ app.get('/', (req, res)=>{
     res.send('hello')
 })
 
-app.use('/users', userRoutes)
+app.use('/users', userRoutes) 
 app.use('/captain', captainRoutes)
 app.use('/maps',mapRoutes )
+app.use('/rides', rideRoutes)
 
 export default app 
