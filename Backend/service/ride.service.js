@@ -1,5 +1,6 @@
 import { Ride } from "../Models/ride.model.js";
 import { getDistanceAndTime } from "./maps.service.js";
+import crypto from 'crypto'
 
 async function getFare(pickup, destination){
     if(!pickup || !destination){
@@ -35,6 +36,14 @@ const fare = {
 return fare;
 }
 
+function getOTP(num){
+    function generateOTP(num){
+        const otp=crypto.randomInt(Math.pow(10, num-1), Math.pow(10,num)).toString()
+        return otp
+    }
+    return generateOTP(num)
+}
+
 export const createRide=async ({user,pickup, destination, vehicleType} )=>{
     if(!user || !pickup || !destination || !vehicleType){
         throw new Error('all fields are required')
@@ -43,7 +52,7 @@ export const createRide=async ({user,pickup, destination, vehicleType} )=>{
     const fare=await getFare(pickup, destination)
 
     const ride=await Ride.create({
-        user, pickup, destination,fare:fare[vehicleType]
+        user, pickup, destination,fare:fare[vehicleType], otp:getOTP(6)
     })
 
     return ride
