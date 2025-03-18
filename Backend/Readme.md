@@ -422,3 +422,70 @@ This endpoint is used to log out the currently logged-in captain.
       "message": "Unauthorized"
     }
     ```
+
+### Ride Routes
+
+#### Create a Ride
+
+**Endpoint:** `GET /create`
+
+**Description:** Create a new ride.
+
+**Access:** Private
+
+**Parameters:**
+- `pickup` (string, required): The pickup address.
+- `destination` (string, required): The destination address.
+- `vehicleType` (string, required): The type of vehicle (auto, car, motorcycle).
+
+**Response:**
+- `200 OK`: Returns the created ride.
+- `400 Bad Request`: Returns validation errors.
+
+### Maps Routes
+
+#### Get Coordinates
+
+**Endpoint:** `GET /get-coordinates`
+
+**Description:** Get coordinates for a given address.
+
+**Access:** Private
+
+**Parameters:**
+- `address` (string, required): The address to get coordinates for.
+
+**Response:**
+- `200 OK`: Returns the coordinates.
+- `400 Bad Request`: Returns validation errors.
+
+#### Get Distance and Time
+
+**Endpoint:** `GET /get-distance-time`
+
+**Description:** Get distance and time between origin and destination.
+
+**Access:** Private
+
+**Parameters:**
+- `origin` (string, required): The origin address.
+- `destination` (string, required): The destination address.
+
+**Response:**
+- `200 OK`: Returns the distance and time.
+- `400 Bad Request`: Returns validation errors.
+
+#### Get Autocomplete Suggestions
+
+**Endpoint:** `GET /get-suggestions`
+
+**Description:** Get autocomplete suggestions for a given input.
+
+**Access:** Private
+
+**Parameters:**
+- `input` (string, required): The input query for suggestions.
+
+**Response:**
+- `200 OK`: Returns the autocomplete suggestions.
+- `400 Bad Request`: Returns validation errors.
