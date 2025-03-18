@@ -29,7 +29,7 @@ export const getDistanceAndTime = async (origin, destination) => {
     throw new Error('origin and destination are required');
   }
 
-  const api_key = process.env.GOOGLE_MAPS_API_KEY;
+  const api_key = process.env.GOOGLE_MAPS_API_KEY
   const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destination}&key=${api_key}`;
 try {
   
@@ -55,14 +55,17 @@ export const getAutoCompleteSuggestionsfunc = async (input) => {
   }
 
   const api_key = process.env.GOOGLE_MAPS_API_KEY;
-  const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${input}&key=${api_key}`;
+  // Updated input encoding in URL
+  const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${api_key}`;
 
   try {
     const response = await axios.get(url);
-    if (response.data.status === 'OK') {
-      return response.data.predictions;
+    if (response?.data?.status === 'OK' || response?.data?.status === 'ZERO_RESULTS') {
+      return response?.data?.predictions || [];
     } else {
-      throw new Error('Unable to fetch autocomplete suggestions');
+      // Log the full response for debugging
+      console.error("Autocomplete API error:", response.data);
+      throw new Error(response.data.error_message || 'Unable to fetch autocomplete suggestions');
     }
   } catch (error) {
     console.error(error);

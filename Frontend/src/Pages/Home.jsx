@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import axios from "axios";
 import LocationSearchPanel from "../components/LocationSearchPanel";
 import Vehiclepanel from "../components/Vehiclepanel";
 import ConfirmRidePanel from "../components/ConfirmRidePanel";
@@ -16,16 +17,72 @@ function Home() {
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
   const [vehicleFound, setVehicleFound] = useState(false);
   const [WaitingForDriver, setWaitingForDriver] = useState(false);
+  const [activeField, setActiveField] = useState("");
+  const [pickupSuggestions, setPickupSuggestions] = useState([]);
+  const [destinationSuggestions, setDestinationSuggestions] = useState([]);
 
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
   const vehiclePanelRef = useRef(null);
   const confirmRidePanelRef = useRef(null);
-  const vehicleFoundRef=useRef(null)
-  const WaitingForDriverRef=useRef(null)
+  const vehicleFoundRef = useRef(null);
+  const WaitingForDriverRef = useRef(null);
 
   const submitHandler = (e) => {
     e.preventDefault();
+  };
+
+  const fetchSuggestions = async (query, field) => {
+    if (query.trim() === "") {
+      if (field === "pickup") {
+        setPickupSuggestions([]);
+      } else if (field === "destination") {
+        setDestinationSuggestions([]);
+      }
+      return;
+    }
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`, { 
+        params: { input: query },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      // Extract suggestions from response (change this line as needed based on API response)
+      const suggestions = response?.data?.suggestions
+      console.log(suggestions);
+      
+      if (field === "pickup") {
+        setPickupSuggestions(suggestions);
+      } else if (field === "destination") {
+        setDestinationSuggestions(suggestions);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handlePickupChange = (e) => {
+    const value = e.target.value;
+    setPickup(value);
+    fetchSuggestions(value, "pickup");
+  };
+
+  const handleDestinationChange = (e) => {
+    const value = e.target.value;
+    setDestination(value);
+    fetchSuggestions(value, "destination");
+  };
+
+  const onSelectSuggestion = (suggestion) => {
+    if (activeField === "pickup") {
+      setPickup(suggestion);
+      setPickupSuggestions([]);
+    } else if (activeField === "destination") {
+      setDestination(suggestion);
+      setDestinationSuggestions([]);
+    }
+    setPanelOpen(false);
   };
 
   useGSAP(
@@ -110,7 +167,6 @@ function Home() {
     [WaitingForDriver]
   );
 
-
   return (
     <>
       <div className="flex w-full h-screen  gap-10 p-10 justify-between overflow-hidden">
@@ -134,22 +190,24 @@ function Home() {
               <input
                 className="w-1/2 text-center bg-[#eee] text-sm py-2 px-3 rounded-lg outline-none"
                 value={pickup}
-                onChange={(e) => setPickup(e.target.value)}
-                onClick={() => setPanelOpen(true)}
+                onChange={handlePickupChange}
+                onClick={() => { setPanelOpen(true); setActiveField("pickup"); }}
                 type="text"
                 placeholder="Add a Pick-up location"
               />
               <input
                 className="w-1/2 text-center bg-[#eee] text-sm px-3 py-2 rounded-lg outline-none"
                 value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-                onClick={() => setPanelOpen(true)}
+                onChange={handleDestinationChange}
+                onClick={() => { setPanelOpen(true); setActiveField("destination"); }}
                 type="text"
                 placeholder="Add your Destination"
               />
             </form>
             <div ref={panelRef} className="h-0 mt-6 overflow-hidden p-0">
               <LocationSearchPanel
+                suggestions={activeField === "pickup" ? pickupSuggestions : destinationSuggestions}
+                onSelectSuggestion={onSelectSuggestion}
                 setVehiclePanel={setVehiclePanel}
                 setPanelOpen={setPanelOpen}
               />
@@ -159,27 +217,33 @@ function Home() {
             ref={vehiclePanelRef}
             className="fixed bottom-0 w-[32vw] ml-1 mt-2 h-[60vh]  bg-white overflow-auto scrollbar-none translate-y-full "
           >
-            <Vehiclepanel setVehiclePanel={setVehiclePanel} setConfirmRidePanel={setConfirmRidePanel} />
+            <Vehiclepanel
+              setVehiclePanel={setVehiclePanel}
+              setConfirmRidePanel={setConfirmRidePanel}
+            />
           </div>
         </div>
         <div
-            ref={confirmRidePanelRef}
-            className="fixed bottom-0 w-[34vw] ml-10 mt-1 h-[64vh] bg-white overflow-auto scrollbar-none translate-y-full "
-          >
-            <ConfirmRidePanel setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
-          </div>
-          <div
-            ref={vehicleFoundRef}
-            className="fixed bottom-0 w-[34vw] ml-10 mt-1 h-[64vh] bg-white overflow-auto scrollbar-none translate-y-full "
-          >
-            <LookingForDriver setVehicleFound={setVehicleFound}/>
-          </div>
-          <div
-            ref={WaitingForDriverRef}
-            className="fixed bottom-0 w-[34vw] ml-10 mt-1 h-[64vh] bg-white overflow-auto scrollbar-none translate-y-full "
-          >
-            <WaitForDriver setWaitingForDriver={setWaitingForDriver}/>
-          </div>
+          ref={confirmRidePanelRef}
+          className="fixed bottom-0 w-[34vw] ml-10 mt-1 h-[64vh] bg-white overflow-auto scrollbar-none translate-y-full "
+        >
+          <ConfirmRidePanel
+            setConfirmRidePanel={setConfirmRidePanel}
+            setVehicleFound={setVehicleFound}
+          />
+        </div>
+        <div
+          ref={vehicleFoundRef}
+          className="fixed bottom-0 w-[34vw] ml-10 mt-1 h-[64vh] bg-white overflow-auto scrollbar-none translate-y-full "
+        >
+          <LookingForDriver setVehicleFound={setVehicleFound} />
+        </div>
+        <div
+          ref={WaitingForDriverRef}
+          className="fixed bottom-0 w-[34vw] ml-10 mt-1 h-[64vh] bg-white overflow-auto scrollbar-none translate-y-full "
+        >
+          <WaitForDriver setWaitingForDriver={setWaitingForDriver} />
+        </div>
 
         <div className="h-full  w-[60%]">
           <img

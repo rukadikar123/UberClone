@@ -15,6 +15,6 @@ router.get('/get-distance-time',
     isLoggedIn, getDistanceTime
 )    
 
-router.get('/get-suggestions', query('input').isString().isLength({min:3}), isLoggedIn, getAutoCompleteSuggestions)
+router.get('/get-suggestions', query('input').isString(), isLoggedIn, getAutoCompleteSuggestions)
 
 export default router;
