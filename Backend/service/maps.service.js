@@ -30,15 +30,18 @@ export const getDistanceAndTime = async (origin, destination) => {
   }
 
   const api_key = process.env.GOOGLE_MAPS_API_KEY
-  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origin}&destinations=${destination}&key=${api_key}`;
+  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&key=${api_key}`;
+  
 try {
   
   const response=await axios.get(url)
-  if(response.status==='OK'){
-    if(response.data.rows[0].elements[0].status==='ZERO_RESULTS' ){
+  console.log(response);
+  
+  if(response?.data?.status==='OK'){
+    if(response?.data?.rows[ 0 ].elements[ 0 ].status ==='ZERO_RESULTS' ){
       throw new Error('no Routes found')
     }
-    return response.data.rows[0].elements[0]
+    return response?.data?.rows[ 0 ].elements[ 0 ]
   }else{
     throw new Error ("unable to fetch distance and time")
   }

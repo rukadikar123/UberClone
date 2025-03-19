@@ -427,7 +427,7 @@ This endpoint is used to log out the currently logged-in captain.
 
 #### Create a Ride
 
-**Endpoint:** `GET /create`
+**Endpoint:** `GET /rides/create`
 
 **Description:** Create a new ride.
 
@@ -441,6 +441,44 @@ This endpoint is used to log out the currently logged-in captain.
 **Response:**
 - `200 OK`: Returns the created ride.
 - `400 Bad Request`: Returns validation errors.
+
+#### Get Fare
+
+**Endpoint:** `GET /rides/get-fare`
+
+**Description:** Get fare estimation for a ride.
+
+**Access:** Private
+
+**Parameters:**
+- `pickup` (string, required): The pickup address.
+- `destination` (string, required): The destination address.
+
+**Response:**
+- `200 OK`: Returns the fare estimation.
+  - Example Response:
+    ```json
+    {
+      "fare": {
+        "auto": 50,
+        "car": 75,
+        "motorcycle": 40
+      }
+    }
+    ```
+- `400 Bad Request`: Returns validation errors.
+  - Example Response:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "invalid pickup",
+          "param": "pickup",
+          "location": "query"
+        }
+      ]
+    }
+    ```
 
 ### Maps Routes
 

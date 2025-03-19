@@ -35,12 +35,13 @@ export const getDistanceTime=async(req, res)=>{
         })
     }
 
-    const {origin, destination}=req.query
-    const distanceTime=await getDistanceAndTime(origin, destination)
+    const {origin, destination}=req.query; 
 
-    return res.status(200).json({
+    const distanceTime=await getDistanceAndTime(origin, destination);
+
+    res.status(200).json(
         distanceTime
-    })
+    )
  } catch (error) {
     console.log(error);
     res.status(400).json({

@@ -5,7 +5,7 @@ import { RiMapPinUserFill } from "react-icons/ri";
 import { RiCurrencyFill } from "react-icons/ri";
 
 
-function ConfirmRidePanel({setConfirmRidePanel, setVehicleFound}) {
+function ConfirmRidePanel({setConfirmRidePanel, setVehicleFound, createRide, destination, pickup, vehicleType, fare}) {
   return (
     <div>
       <p onClick={()=>setConfirmRidePanel(false)} className="w-full flex justify-center cursor-pointer   ">
@@ -23,27 +23,28 @@ function ConfirmRidePanel({setConfirmRidePanel, setVehicleFound}) {
                 <p><LuMapPin size={20} /></p>
                 <div className="flex flex-col">
                     <h2 className="text-md font-medium">562/11-A</h2>
-                    <p className="text-sm">Kakriya talab, Bhopal</p>
+                    <p className="text-sm">{pickup}</p>
                 </div>
             </div>
             <div className="flex items-center gap-8 border-b-1 p-1 border-gray-400">
                 <p><RiMapPinUserFill size={20} /></p>
                 <div className="flex flex-col">
                     <h2 className="text-md font-medium">562/11-A</h2>
-                    <p className="text-sm">Kakriya talab, Bhopal</p>
+                    <p className="text-sm">{destination}</p>
                 </div>
             </div>
             <div className="flex items-center gap-8  p-1 border-gray-400">
                 <p><RiCurrencyFill size={20} />
                 </p>
                 <div className="flex flex-col">
-                    <h2 className="text-md font-medium">Rs.192</h2>
+                    <h2 className="text-md font-medium">₹{fare[vehicleType]}</h2>
                 </div>
             </div>
         </div>
         <button onClick={()=>{
           setVehicleFound(true)
           setConfirmRidePanel(false)
+          createRide()
         }} className="w-full bg-green-500 rounded-sm p-1 mt-2 text-white text-xl font-medium">
             Confirm
         </button>
