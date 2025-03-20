@@ -23,7 +23,7 @@ function UserProtectWrapper({children}) {
     }).then((res)=>{
       if(res.status===200){
         const data =res.data
-        setUser(data.user)
+        setUser(data)
         setIsLoading(false)
       }
     }).catch((err)=>{

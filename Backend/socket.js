@@ -1,4 +1,4 @@
-import { Server } from 'socket.io'
+import { Server } from 'socket.io'; 
 import { User } from './Models/user.schema.js';
 import { Captain } from './Models/captain.schema.js';
 
@@ -25,6 +25,21 @@ export function initializeSocket(server) {
                 await Captain.findByIdAndUpdate(userId, {socketId:socket.id})
             }
         });
+
+
+        socket.on('update-location-captain', async(data)=>{
+            const {userId, location}=data
+
+            if(!location || !location.ltd || !location.lng ){
+                return socket.emit('error', {message: 'invalid location data'})
+            }
+            await Captain.findByIdAndUpdate(userId,{
+                location:{
+                    ltd:location.ltd,
+                    lng:location.lng
+                }
+            })
+        })
 
         socket.on('disconnect', () => {
             console.log(`Client disconnected: ${socket.id}`);

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { MdKeyboardArrowDown } from "react-icons/md";
@@ -8,6 +8,8 @@ import Vehiclepanel from "../components/Vehiclepanel";
 import ConfirmRidePanel from "../components/ConfirmRidePanel";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitForDriver from "../components/WaitForDriver";
+import { useSocket } from "../Context/SocketContext";
+import { UserDataContext } from "../Context/userContext";
 
 function Home() {
   const [pickup, setPickup] = useState("");
@@ -28,6 +30,16 @@ function Home() {
   const confirmRidePanelRef = useRef(null);
   const vehicleFoundRef = useRef(null);
   const WaitingForDriverRef = useRef(null);
+
+ const {socket}=useSocket()
+ const {user}=useContext(UserDataContext)
+
+ useEffect(() => {
+
+   socket.emit('join',{userType:'user', userId:user._id})
+  
+ }, [user])
+ 
 
   const submitHandler = (e) => {
     e.preventDefault();
