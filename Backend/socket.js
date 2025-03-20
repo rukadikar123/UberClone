@@ -32,7 +32,7 @@ export function initializeSocket(server) {
 
             if(!location || !location.ltd || !location.lng ){
                 return socket.emit('error', {message: 'invalid location data'})
-            }
+                }
             await Captain.findByIdAndUpdate(userId,{
                 location:{
                     ltd:location.ltd,
@@ -47,9 +47,9 @@ export function initializeSocket(server) {
     });
 }
 
-export function sendMessageToSocketId(socketId, message) {
+export function sendMessageToSocketId(socketId, messageObject) {
     if (io) {
-        io.to(socketId).emit('message', message);
+        io.to(socketId).emit(messageObject.event, messageObject.data);
     } else {
         console.error('Socket.io is not initialized.');
     }

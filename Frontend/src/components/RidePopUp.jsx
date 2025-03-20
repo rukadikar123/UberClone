@@ -4,7 +4,7 @@ import { LuMapPin } from "react-icons/lu";
 import { RiMapPinUserFill } from "react-icons/ri";
 import { RiCurrencyFill } from "react-icons/ri";
 
-function RidePopUp({setRidePopUpPanel, setConfirmRidePopupPanel}) {
+function RidePopUp({setRidePopUpPanel, setConfirmRidePopupPanel, ride}) {
   return (
     <div className="p-2">
       <p onClick={()=>setRidePopUpPanel(false)} className="w-full flex justify-center cursor-pointer   ">
@@ -20,7 +20,7 @@ function RidePopUp({setRidePopUpPanel, setConfirmRidePopupPanel}) {
               alt=""
             />
           </div>
-          <h1 className="text-xl font-medium">Rahul </h1>
+          <h1 className="text-xl font-medium">{ride?.user?.fullName?.firstName + ' ' + ride?.user?.fullName?.lastName}</h1>
         </div>
        <h1 className="text-lg font-medium">2.2 KM</h1>
       </div>
@@ -33,7 +33,7 @@ function RidePopUp({setRidePopUpPanel, setConfirmRidePopupPanel}) {
             </p>
             <div className="flex flex-col">
               <h2 className="text-md font-medium">562/11-A</h2>
-              <p className="text-sm">Kakriya talab, Bhopal</p>
+              <p className="text-sm">{ride?.pickup}</p>
             </div>
           </div>
           <div className="flex items-center gap-8 border-b-1 p-1 border-gray-400">
@@ -42,7 +42,7 @@ function RidePopUp({setRidePopUpPanel, setConfirmRidePopupPanel}) {
             </p>
             <div className="flex flex-col">
               <h2 className="text-md font-medium">562/11-A</h2>
-              <p className="text-sm">Kakriya talab, Bhopal</p>
+              <p className="text-sm">{ride?.destination}</p>
             </div>
           </div>
           <div className="flex items-center gap-8  p-1 border-gray-400">
@@ -50,7 +50,7 @@ function RidePopUp({setRidePopUpPanel, setConfirmRidePopupPanel}) {
               <RiCurrencyFill size={20} />
             </p>
             <div className="flex flex-col">
-              <h2 className="text-md font-medium">Rs.192</h2>
+              <h2 className="text-md font-medium">₹{ride?.fare}</h2>
             </div>
           </div>
         </div>
