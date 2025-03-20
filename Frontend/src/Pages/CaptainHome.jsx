@@ -19,9 +19,9 @@ const {socket}=useSocket()
 const {captain}=useContext(CaptainDataContext)
 
 useEffect(()=>{
-    socket.emit('join', {userId:Captain._id, userType:'captain'})
+    socket.emit('join', {userId:captain._id, userType:'captain'})
 
-},[Captain])
+},[captain])
 
 
 const updateLocation=()=>{
