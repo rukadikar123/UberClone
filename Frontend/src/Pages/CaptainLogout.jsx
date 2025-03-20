@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+
 import { useNavigate } from 'react-router-dom'
-import { UserDataContext } from '../Context/UserContext'
 import axios from 'axios'
 
 function CaptainLogout() {

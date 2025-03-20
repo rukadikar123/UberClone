@@ -31,6 +31,7 @@ export const getDistanceAndTime = async (origin, destination) => {
   }
 
   const api_key = process.env.GOOGLE_MAPS_API_KEY
+
   const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&key=${api_key}`;
   
 try {
