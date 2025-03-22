@@ -4,7 +4,7 @@ import { LuMapPin } from "react-icons/lu";
 import { RiMapPinUserFill } from "react-icons/ri";
 import { RiCurrencyFill } from "react-icons/ri";
 
-function RidePopUp({setRidePopUpPanel, setConfirmRidePopupPanel, ride}) {
+function  RidePopUp({setRidePopUpPanel, setConfirmRidePopupPanel, ride, confirmRide}) {
   return (
     <div className="p-2">
       <p onClick={()=>setRidePopUpPanel(false)} className="w-full flex justify-center cursor-pointer   ">
@@ -55,7 +55,10 @@ function RidePopUp({setRidePopUpPanel, setConfirmRidePopupPanel, ride}) {
           </div>
         </div>
         <button
-          onClick={() => {setConfirmRidePopupPanel(true)}}
+          onClick={() => {
+            setConfirmRidePopupPanel(true)
+            confirmRide()
+          }}
           className="w-full bg-green-500 rounded-sm p-2 mt-2 text-white text-xl font-medium"
         >
           Accept

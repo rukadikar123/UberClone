@@ -5,13 +5,13 @@ import { MdKeyboardArrowUp } from "react-icons/md";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import FinishRide from "../components/FinishRide";
+import { useLocation } from "react-router-dom";
 
 function CaptainRiding() {
     const [finishRidePanel, setFinishRidePanel]=useState(false)
-    
-
     const finishRidePanelRef=useRef(null)
-
+    const location = useLocation();
+    const rideData = location.state?.ride;
 
     useGSAP(
         function () {
@@ -52,7 +52,7 @@ function CaptainRiding() {
             <MdKeyboardArrowUp size={35} />
           </p>
           <div className=" flex items-center justify-around bg-yellow-400">
-            <h2 className="text-xl font-medium">4 KM Away</h2>
+            <h2 className="text-xl font-medium">{rideData?.distance || 'N/A'} KM Away</h2>
             <button className="bg-green-700 text-white rounded-md px-3 py-2">
               Complete Ride
             </button>
@@ -60,7 +60,7 @@ function CaptainRiding() {
           <div ref={finishRidePanelRef}
           className="fixed bottom-0 w-[95%] mt-1 h-[80vh] bg-white overflow-auto translate-y-full scrollbar-none  "
         >
-          <FinishRide  setFinishRidePanel={setFinishRidePanel} />
+          <FinishRide  rideData={rideData} setFinishRidePanel={setFinishRidePanel} />
         </div>
         </div>
         

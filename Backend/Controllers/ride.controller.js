@@ -1,5 +1,5 @@
 import { validationResult } from "express-validator";
-import { createRide, getFare } from "../service/ride.service.js";
+import { createRide, getFare, confirmARide } from "../service/ride.service.js";
 import {
   getAddressCoordinators,
   getCaptainsInTheRadius,
@@ -69,3 +69,30 @@ export const GetFare = async (req, res) => {
     });
   }
 };
+
+export const confirmRide=async (req, res)=>{
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors.array(),
+    });
+  }
+
+  const {rideId}=req.body
+  try {
+      const ride =await confirmARide({rideId, captain:req.captain})
+    sendMessageToSocketId(ride.user.socketId,{
+      event:'ride-confirm',
+      data:ride
+    })
+
+
+      return res.status(200).json({ride})
+  } catch (error) {
+      return res.status(400).json({message:error.message})
+  }
+}
+
+export const startRide=async(req, res)=>{
+  
+}

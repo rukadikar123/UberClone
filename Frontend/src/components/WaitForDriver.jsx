@@ -4,7 +4,7 @@ import { LuMapPin } from "react-icons/lu";
 import { RiMapPinUserFill } from "react-icons/ri";
 import { RiCurrencyFill } from "react-icons/ri";    
 
-function WaitForDriver({setWaitingForDriver}) {
+function WaitForDriver({setWaitingForDriver, ride}) {
   return (
     <>
       <div>
@@ -19,9 +19,10 @@ function WaitForDriver({setWaitingForDriver}) {
             alt=""
           />
           <div className="flex flex-col gap-1 items-end ">
-            <h2 className="text-lg font-medium">Siddharth</h2>
-            <h1 className="text-xl font-medium">MH AS 3642</h1>
+            <h2 className="text-lg font-medium capitalize">{ride?.captain?.fullName?.firstName}</h2>
+            <h1 className="text-xl font-medium">{ride?.captain?.vehicle?.plate}</h1>
             <p>Maruti suzuki alto</p>
+            <h1 className="text-lg font-medium">{ride?.otp}</h1>
           </div>
         </div>
         <div className="flex flex-col items-center w-full gap-1">
@@ -32,7 +33,7 @@ function WaitForDriver({setWaitingForDriver}) {
               </p>
               <div className="flex flex-col">
                 <h2 className="text-md font-medium">562/11-A</h2>
-                <p className="text-sm">Kakriya talab, Bhopal</p>
+                <p className="text-sm">{ride?.pickup}</p>
               </div>
             </div>
             <div className="flex items-center gap-8 border-b-1 p-1 border-gray-400">
@@ -41,7 +42,7 @@ function WaitForDriver({setWaitingForDriver}) {
               </p>
               <div className="flex flex-col">
                 <h2 className="text-md font-medium">562/11-A</h2>
-                <p className="text-sm">Kakriya talab, Bhopal</p>
+                <p className="text-sm">{ride?.destination}</p>
               </div>
             </div>
             <div className="flex items-center gap-8  p-1 border-gray-400">
@@ -49,7 +50,7 @@ function WaitForDriver({setWaitingForDriver}) {
                 <RiCurrencyFill size={20} />
               </p>
               <div className="flex flex-col">
-                <h2 className="text-md font-medium">Rs.192</h2>
+                <h2 className="text-md font-medium">₹{ride?.fare}</h2>
               </div>
             </div>
           </div>

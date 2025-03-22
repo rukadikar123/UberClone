@@ -3,9 +3,12 @@ import { LuMapPin } from "react-icons/lu";
 import { RiMapPinUserFill } from "react-icons/ri";
 import { RiCurrencyFill } from "react-icons/ri";
 import { IoMdHome } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Riding() {
+
+  const location=useLocation()
+  const {ride}=location.state
   return (
     <div className="flex w-full h-screen gap-20 p-10 justify-between overflow-hidden">
       <div className="w-[40%] mx-4 my-20">
@@ -18,8 +21,8 @@ function Riding() {
             alt=""
           />
           <div className="flex flex-col gap-1 items-end ">
-            <h2 className="text-lg font-medium">Siddharth</h2>
-            <h1 className="text-xl font-medium">MH AS 3642</h1>
+            <h2 className="text-lg font-medium capitalize">{ride?.captain?.fullName?.firstName}</h2>
+            <h1 className="text-xl font-medium">{ride?.captain?.vehicle?.plate}</h1>
             <p>Maruti suzuki alto</p>
           </div>
         </div>
@@ -31,7 +34,7 @@ function Riding() {
               </p>
               <div className="flex flex-col">
                 <h2 className="text-md font-medium">562/11-A</h2>
-                <p className="text-sm">Kakriya talab, Bhopal</p>
+                <p className="text-sm">{ride?.pickup}</p>
               </div>
             </div>
             <div className="flex items-center gap-8 border-b-1 p-1 border-gray-400">
@@ -40,7 +43,7 @@ function Riding() {
               </p>
               <div className="flex flex-col">
                 <h2 className="text-md font-medium">562/11-A</h2>
-                <p className="text-sm">Kakriya talab, Bhopal</p>
+                <p className="text-sm">{ride?.destination}</p>
               </div>
             </div>
             <div className="flex items-center gap-8  p-1 border-gray-400">
@@ -48,7 +51,7 @@ function Riding() {
                 <RiCurrencyFill size={20} />
               </p>
               <div className="flex flex-col">
-                <h2 className="text-md font-medium">Rs.192</h2>
+                <h2 className="text-md font-medium">₹{ride?.fare}</h2>
               </div>
             </div>
             <button className="w-full bg-green-500 rounded-sm p-1 mt-2 text-white text-xl font-medium">Make a Payment</button>

@@ -1,4 +1,5 @@
 import { Ride } from "../Models/ride.model.js";
+import { sendMessageToSocketId } from "../socket.js";
 import { getDistanceAndTime } from "./maps.service.js";
 import crypto from "crypto";
 
@@ -78,3 +79,61 @@ export const createRide = async ({
 
   return ride;
 };
+
+
+export const confirmARide=async({rideId})=>{
+  if(!rideId){
+    throw new Error('ride id is required')
+  }
+
+  await Ride.findOneAndUpdate({
+    _id:rideId
+  },{
+    status:'accepted',
+    captain:captain._id
+  })
+  const ride=await Ride.findOne({
+    _id:rideId
+  }).populate('user').populate('captain').select('+otp')
+
+  if(!ride){
+    throw new Error('Ride not found')
+  }
+  
+  return ride
+}
+
+export const startARide=async({rideId, otp, captain})=>{
+    if(!rideId || !otp){
+      throw new Error('Ride id and otp is required')
+    }
+
+    const ride=await Ride.findOne({_id:rideId}).populate('user').populate('captain').select('+otp')
+
+    if(!ride){
+      throw new Error('Ride not found')
+    }
+
+    if(ride.status !=='accepted'){
+      throw new Error('Ride Not accepted')
+    }
+
+    if(ride.otp !==otp){
+      throw new Error('invalid otp')
+    }
+
+    await Ride.findOneAndUpdate({
+      _id:rideId
+    },{
+      status:'ongoing'
+    })
+
+    sendMessageToSocketId(ride.user.socketId,{
+      event:'ride-started',
+      data:ride
+    })
+
+
+    return ride
+
+}

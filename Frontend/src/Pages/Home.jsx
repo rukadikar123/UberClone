@@ -10,6 +10,7 @@ import LookingForDriver from "../components/LookingForDriver";
 import WaitForDriver from "../components/WaitForDriver";
 import { UserDataContext } from "../Context/userContext";
 import { SocketContext } from "../Context/SocketContext";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [pickup, setPickup] = useState("");
@@ -24,6 +25,9 @@ function Home() {
   const [destinationSuggestions, setDestinationSuggestions] = useState([]);
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType]=useState(null)
+  const [ride, setRide]=useState(null)
+
+
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
   const vehiclePanelRef = useRef(null);
@@ -34,11 +38,24 @@ function Home() {
  const {socket}=useContext(SocketContext)
  const {user}=useContext(UserDataContext)
 
+ const navigate=useNavigate()
+
  useEffect(() => {
 
    socket.emit('join',{userType:'user', userId:user._id})
   
  }, [user])
+
+ socket.on('ride-confirm', ride=>{
+  setRide(ride)
+  setVehicleFound(false)
+  setWaitingForDriver(true)
+ })
+
+ socket.on('ride-started', ride=>{
+    setWaitingForDriver(false)
+    navigate('/riding', { state: { ride } })
+ })
  
 
   const submitHandler = (e) => {
@@ -334,7 +351,7 @@ function Home() {
           ref={WaitingForDriverRef}
           className="fixed bottom-0 w-[34vw] ml-10 mt-1 h-[64vh] bg-white overflow-auto scrollbar-none translate-y-full "
         >
-          <WaitForDriver setWaitingForDriver={setWaitingForDriver} />
+          <WaitForDriver ride={ride} setWaitingForDriver={setWaitingForDriver} />
         </div>
 
         <div className="h-full  w-[60%]">

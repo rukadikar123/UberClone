@@ -3,15 +3,32 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { LuMapPin } from "react-icons/lu";
 import { RiMapPinUserFill } from "react-icons/ri";
 import { RiCurrencyFill } from "react-icons/ri";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-function ConfirmRidePopUp({setRidePopUpPanel,setConfirmRidePopupPanel}) {
+function ConfirmRidePopUp({setRidePopUpPanel,setConfirmRidePopupPanel, ride}) {
   const [otp, setOtp]=useState('')
 
+  const navigate=useNavigate()
 
-const submitHandler=(e)=>{
-  e.preventDefault()
-}
+const submitHandler=async(e)=>{
+  e.preventDefault()  
+  const response=await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`,{
+    params:{
+      rideId:ride?._id,
+    otp:otp
+    },
+    headers:{
+      Authorization:`Bearer ${localStorage.getItem('token')}`
+    }
+  })
+
+  if(response.status===200){
+    setConfirmRidePopupPanel(false)
+    setRidePopUpPanel(false)
+    navigate('/captain-riding', { state: { ride } })
+  }
+} 
 
   return (
     <div>
@@ -33,7 +50,7 @@ const submitHandler=(e)=>{
                       alt=""
                     />
                   </div>
-                  <h1 className="text-xl font-medium">Rahul </h1>
+                  <h1 className="text-xl font-medium capitalize">{ride?.user?.fullName?.firstName}</h1>
                 </div>
                <h1 className="text-lg font-medium">2.2 KM</h1>
               </div>
@@ -46,7 +63,7 @@ const submitHandler=(e)=>{
                     </p>
                     <div className="flex flex-col">
                       <h2 className="text-md font-medium">562/11-A</h2>
-                      <p className="text-sm">Kakriya talab, Bhopal</p>
+                      <p className="text-sm">{ride?.pickup}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-8 border-b-1 p-1 border-gray-400">
@@ -55,7 +72,7 @@ const submitHandler=(e)=>{
                     </p>
                     <div className="flex flex-col">
                       <h2 className="text-md font-medium">562/11-A</h2>
-                      <p className="text-sm">Kakriya talab, Bhopal</p>
+                      <p className="text-sm">{ride?.destination}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-8  p-1 border-gray-400">
@@ -63,18 +80,18 @@ const submitHandler=(e)=>{
                       <RiCurrencyFill size={20} />
                     </p>
                     <div className="flex flex-col">
-                      <h2 className="text-md font-medium">Rs.192</h2>
+                      <h2 className="text-md font-medium">₹{ride?.fare}</h2>
                     </div>
                   </div>
                 </div>
                 <div className='w-full mt-4'>
-                <form onSubmit={(e)=>submitHandler(e)} className='w-full flex flex-col gap-1 '>
+                <form onSubmit={submitHandler} className='w-full flex flex-col gap-1 '>
                   <input value={otp} onChange={(e)=>setOtp(e.target.value)} type="text" placeholder='Enter OTP'  className='font-mono rounded-md bg-[#eee] p-2'/>
-                <Link to='/captain-riding'
+                <button 
                   className="w-full text-center bg-green-500 rounded-sm p-2 mt-2 text-white text-xl font-medium"
                 >
                   Confirm
-                </Link>
+                </button>
                 <button
                   onClick={() => {setConfirmRidePopupPanel(false)
                     setRidePopUpPanel(false)

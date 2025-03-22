@@ -6,6 +6,7 @@ import gsap from "gsap";
 import ConfirmRidePopUp from "../components/ConfirmRidePopUp";
 import { CaptainDataContext } from "../Context/CaptainContext";
 import { SocketContext } from "../Context/SocketContext";
+import axios from "axios";
 
 function CaptainHome() {
   const [ridePopUpPanel, setRidePopUpPanel] = useState(false);
@@ -72,6 +73,22 @@ function CaptainHome() {
     [confirmRidePopupPanel]
   );
 
+
+  async function confirmRide(){
+    const response=await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`,{
+      rideId:ride._id,
+      captainId:captain._id,
+    }, {
+      headers:{
+        Authorization:`Bearer ${localStorage.getItem('token')}`
+      }
+    })
+
+
+    setRidePopUpPanel(false)
+    setConfirmRidePopupPanel(true)
+  }
+
   return (
     <>
       <div className="flex w-full h-screen gap-20 p-16 justify-between overflow-hidden">
@@ -83,7 +100,7 @@ function CaptainHome() {
         >
           <RidePopUp
             ride={ride}
-
+            confirmRide={confirmRide}
             setRidePopUpPanel={setRidePopUpPanel}
             setConfirmRidePopupPanel={setConfirmRidePopupPanel}
           />
@@ -93,6 +110,7 @@ function CaptainHome() {
           className="fixed bottom-0 w-[38vw] ml-2 mt-1 h-[75vh] bg-white overflow-auto translate-y-full scrollbar-none  "
         >
           <ConfirmRidePopUp
+            ride={ride}
             setConfirmRidePopupPanel={setConfirmRidePopupPanel}
             setRidePopUpPanel={setRidePopUpPanel}
           />
