@@ -3,13 +3,13 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import axios from "axios";
-import LocationSearchPanel from "../components/LocationSearchPanel.jsx";
-import Vehiclepanel from "../components/Vehiclepanel.jsx";
-import ConfirmRidePanel from "../components/ConfirmRidePanel.jsx";
-import LookingForDriver from "../components/LookingForDriver.jsx";
-import WaitForDriver from "../components/WaitForDriver.jsx";
-import { UserDataContext } from "../Context/userContext.jsx";
-import { SocketContext } from "../Context/SocketContext.jsx";
+import LocationSearchPanel from "../components/LocationSearchPanel";
+import Vehiclepanel from "../components/Vehiclepanel";
+import ConfirmRidePanel from "../components/ConfirmRidePanel";
+import LookingForDriver from "../components/LookingForDriver";
+import WaitForDriver from "../components/WaitForDriver";
+import { UserDataContext } from "../Context/userContext";
+import { SocketContext } from "../Context/SocketContext";
 
 function Home() {
   const [pickup, setPickup] = useState("");
