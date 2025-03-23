@@ -1,6 +1,6 @@
 import {  Router } from "express";
 import { body, query } from "express-validator";
-import {  confirmRide, createARide, GetFare, startRide } from "../Controllers/ride.controller.js";
+import {  confirmRide, createARide, endRide, GetFare, startRide } from "../Controllers/ride.controller.js";
 import { authCaptain, isLoggedIn } from "../Middlewares/auth.middleware.js";
 
 const router = Router();
@@ -24,13 +24,19 @@ router.get(
 
 
 router.get('/get-fare', isLoggedIn,
-    // query('pickup').isString().isLength({min:3}).withMessage('invalid pickup'),
-    // query('destination').isString().isLength({min:3}).withMessage('invalid pickup'),
+    query('pickup').isString().isLength({min:3}).withMessage('invalid pickup'),
+    query('destination').isString().isLength({min:3}).withMessage('invalid pickup'),
   GetFare)
 
 
 router.post('/confirm',authCaptain, body('rideId').isMongoId().withMessage('invalid ride id'),confirmRide)  
 
 router.get('/start-ride', authCaptain, query('rideId').isMongoId().withMessage('invalid ride id'), query('otp').isString().isLength({min:6, max:6}).withMessage('invalid otp'), startRide)
+
+router.post('/end-ride', authCaptain, 
+  body('rideId').isMongoId().withMessage('invalid ride id'),
+  endRide
+)
+
 
 export default router;

@@ -11,6 +11,7 @@ import WaitForDriver from "../components/WaitForDriver";
 import { UserDataContext } from "../Context/userContext";
 import { SocketContext } from "../Context/SocketContext";
 import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 
 function Home() {
   const [pickup, setPickup] = useState("");
@@ -355,11 +356,7 @@ function Home() {
         </div>
 
         <div className="h-full  w-[60%]">
-          <img
-            className="h-full object-cover rounded-2xl"
-            src="https://images.squarespace-cdn.com/content/v1/54ff63f0e4b0bafce6932642/1613584766993-KD4G7Q9XDVVHE7EFE1JF/Two+Maps+-+Grayscale.png"
-            alt=""
-          />
+         <LiveTracking/>
         </div>
       </div>
     </>

@@ -137,3 +137,32 @@ export const startARide=async({rideId, otp, captain})=>{
     return ride
 
 }
+
+
+export const endARide=async({rideId, captain})=>{
+    if(!rideId){
+      throw new Error('ride id is required')
+    }
+
+    const ride=await Ride.fineOne({
+      _id:rideId,
+      captain:captain._id
+    }).populate('user').populate('captain').select('+otp')
+
+    if(!ride){
+      throw new Error('Ride is not found')
+    }
+
+    if(ride.status !== 'ongoing'){
+      throw new Error('ride not ongoing')
+    }
+
+    await Ride.findOneAndUpdate({
+      _id:rideId
+    },{
+      status:'completed'
+    })
+
+
+    return ride
+}

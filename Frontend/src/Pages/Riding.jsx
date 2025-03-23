@@ -1,25 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 import { LuMapPin } from "react-icons/lu";
 import { RiMapPinUserFill } from "react-icons/ri";
 import { RiCurrencyFill } from "react-icons/ri";
 import { IoMdHome } from "react-icons/io";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { SocketContext } from "../Context/SocketContext";
+import LiveTracking from "../components/LiveTracking";
 
 function Riding() {
+  const {socket}=useContext(SocketContext)
+  const navigate=useNavigate()
 
   const location=useLocation()
   const {ride}=location.state
+
+  socket.on('ride-ended', ()=>{
+  navigate('/home')
+  } )
   return (
     <div className="flex w-full h-screen gap-20 p-10 justify-between overflow-hidden">
       <div className="w-[40%] mx-4 my-20">
         <Link to='/home' className="fixed top-8 left-6"><IoMdHome size={35}/></Link>
         <div className="flex justify-between  items-center">
           {" "}
-          <img
-            className="h-40 "
-            src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1548646918/assets/e9/2eeb8f-3764-4e26-8b17-5905a75e7e85/original/2.png"
-            alt=""
-          />
+         <LiveTracking/>
           <div className="flex flex-col gap-1 items-end ">
             <h2 className="text-lg font-medium capitalize">{ride?.captain?.fullName?.firstName}</h2>
             <h1 className="text-xl font-medium">{ride?.captain?.vehicle?.plate}</h1>

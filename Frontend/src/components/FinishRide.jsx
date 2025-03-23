@@ -3,8 +3,27 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { LuMapPin } from "react-icons/lu";
 import { RiMapPinUserFill } from "react-icons/ri";
 import { RiCurrencyFill } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
+import axios from "axios";
 function FinishRide({ setFinishRidePanel, rideData }) {
+
+  const navigate=useNavigate()
+
+  const endRideFunc=async ({rideData})=>{
+      const response=await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`,{
+        rideId:rideData._id
+      },{
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+
+      if(response.status ===200){
+        navigate('/captain-home')
+      }
+  }
+
   return (
     <div>
       <div className="p-2">
@@ -56,12 +75,12 @@ function FinishRide({ setFinishRidePanel, rideData }) {
                 <h2 className="text-md font-medium">₹{rideData?.fare}</h2>
               </div>
             </div>
-            <Link
-              to="/captain-home"
+            <button 
+              onClick={endRideFunc}
               className=" text-center  bg-green-500 rounded-sm p-2 mt-2 text-white text-xl font-medium"
             >
               Finish Ride
-            </Link>
+            </button >
           </div>
         </div>
       </div>

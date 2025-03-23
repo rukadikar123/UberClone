@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import FinishRide from "../components/FinishRide";
 import { useLocation } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 
 function CaptainRiding() {
     const [finishRidePanel, setFinishRidePanel]=useState(false)
@@ -38,11 +39,7 @@ function CaptainRiding() {
       </Link>
       <div className="flex pt-16 px-10 flex-col gap-2 h-full w-full">
         <div className=" h-[75%]  w-full">
-          <img
-            className="h-full w-full object-cover rounded-2xl"
-            src="https://images.squarespace-cdn.com/content/v1/54ff63f0e4b0bafce6932642/1613584766993-KD4G7Q9XDVVHE7EFE1JF/Two+Maps+-+Grayscale.png"
-            alt=""
-          />
+          <LiveTracking/>
         </div>
         <div className="bg-yellow-400 h-[25%] pt-6">
           <p
